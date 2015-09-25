@@ -54,7 +54,7 @@ function findBlenderBinary(callback) {
 		the full path to the output file as returned by the Blender script
 */
 function callBlenderScript(binPath, inputFile, outputFile, callback) {
-	var pythonScript = path.join(__dirname, "python", "obj_to_json.py");
+	var pythonScript = path.join(__dirname, "script", "obj_to_json.py");
 	var cmdParts = [
 		binPath,
 		"--factory-startup", // Don't load user preferences -- we don't need them

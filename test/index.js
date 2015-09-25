@@ -120,7 +120,7 @@ describe("obj-to-json", function() {
 				assert.ok(result.match(/--addons io_three/), "No --addons");
 				assert.ok(result.match(/--background/), "No --background");
 				var pythonScriptPath = new RegExp(
-					"--python " + relativePath("../python/obj_to_json.py"));
+					"--python " + relativePath("../script/obj_to_json.py"));
 				assert.ok(result.match(pythonScriptPath),
 									"Did not match Python script path");
 				var inputFilePath = new RegExp("-i " + opts.inputFile);
