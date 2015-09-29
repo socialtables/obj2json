@@ -5,13 +5,13 @@
 	lifting.
 
 	Provides both a classic Node and a Promise-based interface (through the
-	`obj-to-json/as-promised` path)
+	`obj2json/as-promised` path)
  */
 var os = require("os");
 var fs = require("fs");
 var path = require("path");
 var childProcess = require("child_process");
-// var debug = require("debug")("obj-to-json:index");
+// var debug = require("debug")("obj2json:index");
 
 /**
 	Locate the Blender binary. Depending on the platform this is expected
@@ -86,11 +86,11 @@ function callBlenderScript(binPath, inputFile, outputFile, callback) {
 			return callback(stderrString);
 		}
 		var stdoutString = stdout.toString();
-		// We have to parse stdout for the line beginning `-- OBJ-TO-JSON --:`
+		// We have to parse stdout for the line beginning `-- OBJ2JSON --:`
 		// as that's the output from our script
 		var output;
 		if (stdoutString) {
-			var scriptOutputRgx = /-- OBJ-TO-JSON --:(.*)/;
+			var scriptOutputRgx = /-- OBJ2JSON --:(.*)/;
 			var match = stdoutString.match(scriptOutputRgx);
 			output = (match) ? match[1] : null;
 		}

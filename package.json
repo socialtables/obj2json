@@ -1,5 +1,5 @@
 {
-  "name": "obj-to-json",
+  "name": "obj2json",
   "version": "0.0.1",
   "description": "Convert Wavefront .obj files to Three.js JSON format, using Blender",
   "main": "index.js",
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/socialtables/obj-to-json.git"
+    "url": "git+ssh://git@github.com/socialtables/obj2json.git"
   },
   "keywords": [
     "3d",
@@ -21,9 +21,9 @@
   "author": "Social Tables",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/socialtables/obj-to-json/issues"
+    "url": "https://github.com/socialtables/obj2json/issues"
   },
-  "homepage": "https://github.com/socialtables/obj-to-json#readme",
+  "homepage": "https://github.com/socialtables/obj2json#readme",
   "devDependencies": {
     "mocha": "^2.3.3",
     "mockery": "^1.4.0"

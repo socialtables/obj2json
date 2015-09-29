@@ -8,7 +8,7 @@ the Three.js exporter.
 Along with any output from the Blender environment, it also prints a line to
 stdout describing the location of its output JSON file -- this line takes the
 form:
--- OBJ-TO-JSON --: {filename}
+-- OBJ2JSON --: {filename}
 """
 from __future__ import print_function
 import os
@@ -106,7 +106,7 @@ def main():
         # NOTE: Since Blender dumps a lot of largely-irrelevant output to
         # stdout, we need to distinguish our output data in a form that's
         # easy to see and parse.
-        print("-- OBJ-TO-JSON --:", options.output, sep="")
+        print("-- OBJ2JSON --:", options.output, sep="")
     except Exception as e:
         # Ensure that any errors are printed to stderr -- the presence of
         # output in stderr will alert the calling code

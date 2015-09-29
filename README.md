@@ -1,4 +1,4 @@
-# obj-to-json
+# obj2json
 
 Convert Wavefront .obj files to Three.js JSON format, using
 [Blender](http://www.blender.org) and its Python API. Bundles the
@@ -8,7 +8,7 @@ along with a custom script to drive the import / export.
 Example:
 ```javascript
 var path = require("path");
-var obj2json = require("obj-to-json");
+var obj2json = require("obj2json");
 // NOTE: The module can detect standard install locations for Blender on Linux
 // and OS X, but also accepts a `blenderPath` option to provide a non-standard path
 var opts = {
@@ -28,7 +28,7 @@ obj2json(opts, function(err, outputFilePath) {
 A promise-based interface is also available, based on Node 0.12+ native Promises:
 ```javascript
 var path = require("path");
-var obj2json = require("obj-to-json/as-promised");
+var obj2json = require("obj2json/as-promised");
 var opts = {
 	inputFile: path.join(__dirname, "circle.obj"),
 	outputFile: path.join(__dirname, "circle2.json")

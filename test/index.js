@@ -2,7 +2,7 @@
 var mockery = require("mockery");
 var assert = require("assert");
 var path = require("path");
-// var debug = require("debug")("obj-to-json:test");
+// var debug = require("debug")("obj2json:test");
 
 /**
 	Take a relative path from this file and turn it into an absolute path
@@ -11,7 +11,7 @@ function relativePath(p) {
 	return path.join(__dirname, p);
 }
 
-describe("obj-to-json", function() {
+describe("obj2json", function() {
 	describe("findBlenderBinary", function() {
 		beforeEach(function() {
 			mockery.enable({useCleanCache: true});
