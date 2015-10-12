@@ -110,7 +110,7 @@ def main():
     except Exception as e:
         # Ensure that any errors are printed to stderr -- the presence of
         # output in stderr will alert the calling code
-        print(e, file=sys.stderr)
+        print("ERROR:OBJ2JSON:", e, file=sys.stderr)
         sys.exit(1)
 
 
