@@ -42,6 +42,40 @@ function findBlenderBinary(callback) {
 }
 
 /**
+	Parse the standard error from Blender.
+
+	We're interested in extracting our custom script output and any error
+	logging produced by the `io_three` plugin. Since Blender can otherwise
+	produce a lot of spurious output, we need to filter out the irrelevant
+	stuff.
+*/
+function parseScriptError(stderr) {
+	var lineMatchRgx = /^ERROR:(THREE|OBJ2JSON)/;
+	var stderrLines = stderr.split("\n");
+	var relevantLines = stderrLines.filter(function(l) {
+		return l.match(lineMatchRgx);
+	});
+	if (relevantLines.length) {
+		return relevantLines.join("\n");
+	}
+	else {
+		return null;
+	}
+}
+
+/**
+	Parse the standard output from the Blender script.
+
+	We want the line beginning `-- OBJ2JSON --:`, as that's the output we're
+	expecting from our script.
+*/
+function parseScriptOutput(stdout) {
+		var scriptOutputRgx = /-- OBJ2JSON --:(.*)/;
+		var match = stdout.match(scriptOutputRgx);
+		return (match) ? match[1] : null;
+}
+
+/**
 	Call the Blender binary to perform the conversion from .obj to JSON.
 
 	@param binPath Path to the Blender binary
@@ -82,17 +116,14 @@ function callBlenderScript(binPath, inputFile, outputFile, callback) {
 		// from the `io_three` plugin (since that has logging set to "error")
 		// -- we can assume something's gone wrong
 		var stderrString = stderr.toString();
-		if (stderrString) {
-			return callback(stderrString);
+		var errorFound = parseScriptError(stderrString);
+		if (errorFound) {
+			return callback(errorFound);
 		}
 		var stdoutString = stdout.toString();
-		// We have to parse stdout for the line beginning `-- OBJ2JSON --:`
-		// as that's the output from our script
 		var output;
 		if (stdoutString) {
-			var scriptOutputRgx = /-- OBJ2JSON --:(.*)/;
-			var match = stdoutString.match(scriptOutputRgx);
-			output = (match) ? match[1] : null;
+			var output = parseScriptOutput(stdoutString);
 		}
 		return callback(null, output);
 	});
@@ -142,5 +173,7 @@ function convert(opts, callback) {
 // be used / tested separately
 convert.findBlenderBinary = findBlenderBinary;
 convert.callBlenderScript = callBlenderScript;
+convert.parseScriptError = parseScriptError;
+convert.parseScriptOutput = parseScriptOutput;
 
 module.exports = convert;
