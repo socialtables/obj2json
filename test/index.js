@@ -133,6 +133,52 @@ describe("obj2json", function() {
 			});
 		});
 	});
+
+	describe("parseScriptError", function() {
+		var obj2json = require("../index");
+		var exampleLines = [
+			"ALSA lib confmisc.c:768:(parse_card) cannot find card '0'",
+			"ALSA lib conf.c:4241:(_snd_config_evaluate) function snd_func_card_driver returned error: No such file or directory",
+			"ALSA lib confmisc.c:392:(snd_func_concat) error evaluating strings",
+			"ALSA lib conf.c:4241:(_snd_config_evaluate) function snd_func_concat returned error: No such file or directory",
+			"ALSA lib confmisc.c:1251:(snd_func_refer) error evaluating name",
+			"ALSA lib conf.c:4241:(_snd_config_evaluate) function snd_func_refer returned error: No such file or directory",
+			"ALSA lib conf.c:4720:(snd_config_expand) Evaluate error: No such file or directory",
+			"ALSA lib pcm.c:2217:(snd_pcm_open_noupdate) Unknown PCM default",
+			"ERROR:THREE:An example error",
+			"AL lib: alsa.c:512: Could not open playback device 'default': No such file or directory",
+			"AL lib: oss.c:169: Could not open /dev/dsp: Permission denied",
+			"ERROR:OBJ2JSON: Converting py args to operator properties: : keyword \"option_spurious_errors\" unrecognized"
+		];
+
+		it("should pare output down to only the essential lines", function() {
+			var exampleOutput = exampleLines.join("\n");
+			var result = obj2json.parseScriptError(exampleOutput);
+			var expected = "ERROR:THREE:An example error\nERROR:OBJ2JSON: Converting py args to operator properties: : keyword \"option_spurious_errors\" unrecognized";
+			assert.equal(result, expected);
+		});
+		it("should return null if there is nothing relevant", function() {
+			var exampleOutput = exampleLines.slice(0, 6).join("\n");
+			var result = obj2json.parseScriptError(exampleOutput);
+			assert.equal(result, null);
+		});
+
+	});
+	describe("parseScriptOutput", function() {
+		var exampleLines = [
+			"ALSA lib confmisc.c:1251:(snd_func_refer) error evaluating name",
+			"ALSA lib conf.c:4241:(_snd_config_evaluate) function snd_func_refer returned error: No such file or directory",
+			"ALSA lib conf.c:4720:(snd_config_expand) Evaluate error: No such file or directory",
+			"ALSA lib pcm.c:2217:(snd_pcm_open_noupdate) Unknown PCM default",
+			"-- OBJ2JSON --:/tmp/output.json"
+		];
+		var obj2json = require("../index");
+		it("should extract the relevant data", function() {
+			var result = obj2json.parseScriptOutput(exampleLines.join("\n"));
+			assert.equal(result, "/tmp/output.json");
+		});
+
+	});
 	describe("interface", function() {
 		var obj2json = require("../index");
 		it("should require inputFile", function(done) {
