@@ -1,6 +1,6 @@
 # obj2json
 
-[![Circle CI](https://circleci.com/gh/socialtables/obj2json.svg?style=svg)](https://circleci.com/gh/socialtables/obj2json)
+[![Circle CI](https://circleci.com/gh/socialtables/obj2json.png?circle-token=9489f3523a92a326b6f027880c3900b2b91fa794)](https://circleci.com/gh/socialtables/obj2json)
 
 Convert Wavefront .obj files to Three.js JSON format, using
 [Blender](http://www.blender.org) and its Python API. Bundles the
