@@ -16,6 +16,7 @@ import sys
 import argparse
 # Load up the Blender Python API
 import bpy
+import math
 
 # This script assumes the `io_three` module is in Blender's `scripts/addons`
 # directory or the path to it is set from the environment e.g.
@@ -73,6 +74,11 @@ def load_and_convert_obj(options, three_options):
     # selected objects into it, so we have 1 resulting mesh
     bpy.context.scene.objects.active = bpy.context.scene.objects[-1]
     bpy.ops.object.join()
+
+    # Rotate x aix by 90 degree to match THREE.JS coordinate system
+    for obj in bpy.context.scene.objects:
+        obj.select = True
+    bpy.ops.transform.rotate(value=math.pi/2.0, axis=(1, 0, 0))
 
     # Export the file!
     bpy.ops.export.three(filepath=options.output, **three_options)
