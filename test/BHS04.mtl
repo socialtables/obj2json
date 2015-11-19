@@ -1,0 +1,42 @@
+# 3ds Max Wavefront OBJ Exporter v0.97b - (c)2007 guruware
+# File Created: 01.07.2015 15:28:57
+
+newmtl SUEDE_BLACK
+	Ns 10.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000
+	illum 2
+	Ka 0.0000 0.0000 0.0000
+	Kd 0.0471 0.0471 0.0471
+	Ks 0.1800 0.1800 0.1800
+	Ke 0.0000 0.0000 0.0000
+
+newmtl YELLOW_SNAKE
+	Ns 35.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000
+	illum 2
+	Ka 0.0000 0.0000 0.0000
+	Kd 0.7686 0.6392 0.1255
+	Ks 0.6300 0.6300 0.6300
+	Ke 0.0000 0.0000 0.0000
+	map_Ka PythBHS.jpg
+	map_Kd PythBHS.jpg
+	map_bump PythBHS.jpg
+	bump PythBHS.jpg
+
+newmtl Metal_Chrome
+	Ns 20.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000
+	illum 2
+	Ka 0.0000 0.0000 0.0000
+	Kd 0.4392 0.4392 0.4392
+	Ks 1.3500 1.3500 1.3500
+	Ke 0.0000 0.0000 0.0000
