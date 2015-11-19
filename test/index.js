@@ -1,4 +1,5 @@
 /* eslint-env node, mocha */
+var fs = require("fs");
 var mockery = require("mockery");
 var assert = require("assert");
 var path = require("path");
@@ -206,9 +207,7 @@ describe("obj2json", function() {
 			obj2json(opts, function(err, result) {
 				assert.notEqual(err, undefined);
 				assert.equal(result, undefined);
-				assert.equal(
-					err.message,
-					"ENOENT: no such file or directory, access 'baz'");
+				assert.equal(err.message.slice(0, 6), "ENOENT");
 				done();
 			});
 		});
@@ -239,6 +238,24 @@ describe("obj2json", function() {
 				done(err);
 			});
 
+		});
+		it("should handle textures too", function(done) {
+			var opts = {
+				inputFile: relativePath("BHS04.obj"),
+				outputFile: relativePath("BHS04.json")
+			};
+			obj2json(opts, function(err, result) {
+				if (err) {
+					return done(err);
+				}
+				var resultBuffer = fs.readFileSync(result);
+				var resultString = resultBuffer.toString();
+				var resultData = JSON.parse(resultString);
+				assert.equal(resultData.materials.some(function(material) {
+					return (material.mapDiffuse === "PythBHS.jpg");
+				}), true);
+				done();
+			});
 		});
 	});
 });

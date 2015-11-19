@@ -34,6 +34,7 @@ THREE_export_options = {
     "option_face_materials": True,
     "option_copy_textures": True,
     "option_embed_animation": True,
+    "option_maps": True,
 
     ## Scene ?
     # "option_export_scene": True,
