@@ -4,6 +4,18 @@ from .. import constants, logger
 from . import _json
 
 
+def _extract_texture_file_path(path):
+    """Extract the actual file path from the texture's 'file_path' value,
+    which may contain preceding options. Makes the assumption that the file
+    path is the last element in the line, and that it doesn't contain any
+    spaces.
+
+    :param path: file_path value from the texture
+    """
+    path_parts = path.split()
+    return path_parts[-1];
+
+
 def copy_registered_textures(dest, registration):
     """Copy the registered textures to the destination (root) path
 
@@ -16,7 +28,8 @@ def copy_registered_textures(dest, registration):
     logger.debug("io.copy_registered_textures(%s, %s)", dest, registration)
     os.makedirs(dest, exist_ok=True)
     for value in registration.values():
-        copy(value['file_path'], dest)
+        actual_file_path = _extract_texture_file_path(value['file_path'])
+        copy(actual_file_path, dest)
 
 
 def copy(src, dst):
