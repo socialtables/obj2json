@@ -257,5 +257,23 @@ describe("obj2json", function() {
 				done();
 			});
 		});
+		it("should handle copying textures around", function(done) {
+			var opts = {
+				inputFile: relativePath("BHS04-texture-paths.obj"),
+				outputFile: relativePath("BHS04-texture-paths.json")
+			};
+			obj2json(opts, function(err, result) {
+				if (err) {
+					return done(err);
+				}
+				var resultBuffer = fs.readFileSync(result);
+				var resultString = resultBuffer.toString();
+				var resultData = JSON.parse(resultString);
+				assert.equal(resultData.materials.some(function(material) {
+					return (material.mapDiffuse === "RenamedPythBHS.jpg");
+				}), true);
+				done();
+			});
+		});
 	});
 });

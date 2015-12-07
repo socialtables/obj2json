@@ -154,8 +154,11 @@ class Geometry(base_classes.BaseNode):
                 logger.info("%s has registered textures", self.node)
                 dirname = os.path.dirname(self.scene.filepath)
                 full_path = os.path.join(dirname, texture_folder)
+                # We have to make the assumption that the texture file paths
+                # are relative to the file that was imported (otherwise we have
+                # *no* information) so we explicitly pass that in as the source
                 io.copy_registered_textures(
-                    full_path, texture_registration)
+                    full_path, dirname, texture_registration)
 
     def parse(self):
         """Parse the current node"""

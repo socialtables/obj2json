@@ -16,20 +16,24 @@ def _extract_texture_file_path(path):
     return path_parts[-1];
 
 
-def copy_registered_textures(dest, registration):
+def copy_registered_textures(dest, src, registration):
     """Copy the registered textures to the destination (root) path
 
     :param dest: destination directory
+    :param src: source directory
     :param registration: registered textures
     :type dest: str
+    :type src: str
     :type registration: dict
 
     """
-    logger.debug("io.copy_registered_textures(%s, %s)", dest, registration)
+    logger.debug("io.copy_registered_textures(%s, %s, %s)", dest, src, registration)
     os.makedirs(dest, exist_ok=True)
     for value in registration.values():
         actual_file_path = _extract_texture_file_path(value['file_path'])
-        copy(actual_file_path, dest)
+        full_file_path = os.path.join(src, actual_file_path)
+        normalized_path = os.path.normpath(full_file_path)
+        copy(normalized_path, dest)
 
 
 def copy(src, dst):
