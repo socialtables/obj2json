@@ -59,8 +59,8 @@ def load_and_convert_obj(options, three_options):
       as defined above.
     """
     # Clear the whole default scene -- cube, camera, light
-    for ob in bpy.context.scene.objects:
-        ob.select = True
+    for obj in bpy.context.scene.objects:
+        obj.select = True
 
     bpy.ops.object.delete()
 
@@ -76,7 +76,18 @@ def load_and_convert_obj(options, three_options):
     bpy.context.scene.objects.active = bpy.context.scene.objects[-1]
     bpy.ops.object.join()
 
-    # Rotate x aix by 90 degree to match THREE.JS coordinate system
+    # Optionally apply the decimate modifier to the resulting object to
+    # simplify the output
+    if options.decimate is not None:
+        for obj in bpy.context.scene.objects:
+            bpy.context.scene.objects.active = obj
+
+            bpy.ops.object.modifier_add(type="DECIMATE")
+            # bpy.context.object.modifiers["Decimate"].use_collapse_triangulate = True
+            bpy.context.object.modifiers["Decimate"].ratio = options.decimate
+            bpy.ops.object.modifier_apply(modifier="Decimate")
+
+    # Rotate x axis by 90 degree to match THREE.JS coordinate system
     for obj in bpy.context.scene.objects:
         obj.select = True
     bpy.ops.transform.rotate(value=math.pi/2.0, axis=(1, 0, 0))
@@ -105,6 +116,9 @@ def main():
                         help="Path to the input .obj file")
     parser.add_argument("-o", "--output", type=str, required=True,
                         help="Path to the output .json file")
+    parser.add_argument("-d", "--decimate", type=float,
+                        help="Decimation ratio to use to simplify the model. "
+                             "If omitted, don't use decimation at all.")
 
     options = parser.parse_args(args)
 

@@ -4,7 +4,7 @@ from .. import constants, logger
 from . import _json
 
 
-def _extract_texture_file_path(path):
+def extract_texture_file_path(path):
     """Extract the actual file path from the texture's 'file_path' value,
     which may contain preceding options. Makes the assumption that the file
     path is the last element in the line, and that it doesn't contain any
@@ -30,7 +30,7 @@ def copy_registered_textures(dest, src, registration):
     logger.debug("io.copy_registered_textures(%s, %s, %s)", dest, src, registration)
     os.makedirs(dest, exist_ok=True)
     for value in registration.values():
-        actual_file_path = _extract_texture_file_path(value['file_path'])
+        actual_file_path = extract_texture_file_path(value['file_path'])
         full_file_path = os.path.join(src, actual_file_path)
         normalized_path = os.path.normpath(full_file_path)
         copy(normalized_path, dest)

@@ -10,7 +10,7 @@
 var os = require("os");
 var fs = require("fs");
 var path = require("path");
-var childProcess = require("child_process");
+var exec = require("child_process").exec;
 // var debug = require("debug")("obj2json:index");
 
 /**
@@ -61,7 +61,7 @@ function parseScriptError(stderr) {
 	else {
 		return null;
 	}
-}
+
 
 /**
 	Parse the standard output from the Blender script.
@@ -83,11 +83,14 @@ function parseScriptOutput(stdout) {
 		must be in the same directory as the .obj
 	@param outputFile Full path to the output .json file -- will be created if it
 		does not exist, and overwritten if it does.
+	@param decimateRatio Ratio by which to simplify the 3D model during the
+		conversion process, between 0 and 1 (lower is simpler). If undefined,
+		do not simplify.
 	@param callback Function to be called when the conversion is complete. Must
 		take (error, result) parameters. On success, the `result` parameter will be
 		the full path to the output file as returned by the Blender script
 */
-function callBlenderScript(binPath, inputFile, outputFile, callback) {
+function callBlenderScript(binPath, inputFile, outputFile, decimateRatio, callback) {
 	var pythonScript = path.join(__dirname, "script", "obj_to_json.py");
 	var cmdParts = [
 		binPath,
@@ -99,6 +102,9 @@ function callBlenderScript(binPath, inputFile, outputFile, callback) {
 		"-i " + inputFile,
 		"-o " + outputFile
 	];
+	if (decimateRatio !== undefined) {
+		cmdParts.push("-d " + decimateRatio);
+	}
 	var cmd = cmdParts.join(" ");
 	var processOpts = {
 		env: {
@@ -108,7 +114,7 @@ function callBlenderScript(binPath, inputFile, outputFile, callback) {
 		// timeout?
 		// cwd?
 	};
-	childProcess.exec(cmd, processOpts, function(err, stdout, stderr) {
+	exec(cmd, processOpts, function(err, stdout, stderr) {
 		if (err) {
 			return callback(err);
 		}
@@ -140,6 +146,9 @@ function callBlenderScript(binPath, inputFile, outputFile, callback) {
 		blenderPath: (optional) full path to the Blender binary. If not provided,
 			it'll try and detect common paths and fall back to just the string
 			`blender`, hoping it's in the PATH.
+		decimateRatio: (optional) ratio to use when applying Blender's built-in
+			"decimate" modifier to simplify the 3D model. If not provided, will not
+			attempt to simplify the model.
 	@param callback Standard Node callback taking an error argument (for any
 		errors encountered during conversion) and a result argument (the full
 		path to the output file).
@@ -156,7 +165,7 @@ function convert(opts, callback) {
 			if (err) {
 				return callback(err);
 			}
-			return callBlenderScript(opts.blenderPath, opts.inputFile, opts.outputFile, callback);
+			return callBlenderScript(opts.blenderPath, opts.inputFile, opts.outputFile, opts.decimateRatio, callback);
 		});
 	}
 	else {
@@ -164,7 +173,7 @@ function convert(opts, callback) {
 			if (err) {
 				return callback(err);
 			}
-			return callBlenderScript(blenderPath, opts.inputFile, opts.outputFile, callback);
+			return callBlenderScript(blenderPath, opts.inputFile, opts.outputFile, opts.decimateRatio, callback);
 		});
 	}
 }
