@@ -61,6 +61,7 @@ function parseScriptError(stderr) {
 	else {
 		return null;
 	}
+}
 
 
 /**
@@ -97,6 +98,7 @@ function callBlenderScript(binPath, inputFile, outputFile, decimateRatio, callba
 		"--factory-startup", // Don't load user preferences -- we don't need them
 		"--addons io_three", // Use the Three.js exporter we bundle
 		"--background", // Don't try and open a GUI
+		"-noaudio", // Force sound system to None
 		"--python " + pythonScript, // Execute the bundled script
 		"--", // Pass the following arguments to the script
 		"-i " + inputFile,
