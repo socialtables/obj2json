@@ -1,6 +1,6 @@
 {
   "name": "obj2json",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Convert Wavefront .obj files to Three.js JSON format, using Blender",
   "main": "index.js",
   "scripts": {
