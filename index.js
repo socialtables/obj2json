@@ -61,6 +61,7 @@ function parseScriptError(stderr) {
 	else {
 		return null;
 	}
+}
 
 
 /**
