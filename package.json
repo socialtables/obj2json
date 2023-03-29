@@ -4,7 +4,9 @@
   "description": "Convert Wavefront .obj files to Three.js JSON format, using Blender",
   "main": "index.js",
   "scripts": {
-    "test": "mocha test/index.js"
+    "test": "mocha test/index.js",
+    "changeset": "changeset",
+    "release": "st-changeset release --skipPublish"
   },
   "repository": {
     "type": "git",
@@ -25,6 +27,8 @@
   },
   "homepage": "https://github.com/socialtables/obj2json#readme",
   "devDependencies": {
+    "@changesets/cli": "^2.26.0",
+    "@socialtables/changesets": "^1.2.2",
     "mocha": "^2.3.3",
     "mockery": "^1.4.0"
   },
