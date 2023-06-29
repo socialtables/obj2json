@@ -1,3 +1,7 @@
+# DEPRECATION NOTICE
+
+This module is no longer maintained and depends on a no longer maintained or functioning Blender plugin named io_three. Please consider the many other options for Three.js such as native GLTF support.
+
 # obj2json
 
 [![Circle CI](https://circleci.com/gh/socialtables/obj2json.png?circle-token=9489f3523a92a326b6f027880c3900b2b91fa794)](https://circleci.com/gh/socialtables/obj2json)
